@@ -1,8 +1,12 @@
 import re
 import pubchempy as pcp
 
-
 def formulate_code(entry):
+    """
+    change the code back to executable form, add context : imports and place code in function and return the value in a uniform format
+    :param entry: model prediction
+    :return: formulated executable code
+    """
     code = ""
     code += 'import pubchempy as pcp\n'
     code += 'from Utils import function_calls'
@@ -10,13 +14,13 @@ def formulate_code(entry):
     code += "def generated_code():\n"
     for code_line in entry.split("[EOL]"):
         sep_var = re.findall("(.*?) _ (.*?)", code_line)
-        for idx,sep in enumerate(sep_var):
-            changed = sep[0]+"_"+sep[1]
-            code_line = code_line.replace(sep[0]+" _ "+sep[1], changed)
+        for idx, sep in enumerate(sep_var):
+            changed = sep[0] + "_" + sep[1]
+            code_line = code_line.replace(sep[0] + " _ " + sep[1], changed)
         sep_var = re.findall("(.*?). (.*?)", code_line)
-        for idx,sep in enumerate(sep_var):
-            changed = sep[0]+"."+sep[1]
-            code_line = code_line.replace(sep[0]+". "+sep[1], changed)
+        for idx, sep in enumerate(sep_var):
+            changed = sep[0] + "." + sep[1]
+            code_line = code_line.replace(sep[0] + ". " + sep[1], changed)
         if code_line.startswith(" "):
             code_line = code_line[1:]
         code_line = code_line.replace("_ ", "_")
@@ -57,9 +61,9 @@ def formulate_code(entry):
     code += '\treturn answer\n'
     code += "ret_vale = generated_code()"
     code = code.replace("optimized.append ( [ have[0], to_stu( have [1] ) - to_stu( needed[1] ) ",
-                                  "optimized.append([have[0], to_stu(have[1]) - to_stu(needed[1])])")
+                        "optimized.append([have[0], to_stu(have[1]) - to_stu(needed[1])])")
     code = code.replace("for need, have in zip ( components, have_components ) ) :",
-                                  "for need, have in zip(components, have_components):")
+                        "for need, have in zip(components, have_components):")
     code = re.sub(r'"\s*([^"]*?)\s*"', r'"\1"', code)
 
     return code

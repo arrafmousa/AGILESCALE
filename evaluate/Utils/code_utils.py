@@ -3,6 +3,12 @@ import pubchempy as pcp
 
 
 def formulate_code(entry):
+    """
+    change the code back to executable form, add context : imports and place code in function and return the value in a uniform format
+    :param entry: model prediction
+    :return: formulated executable code
+    """
+
     code = ""
     code += 'import pubchempy as pcp\n'
     code += 'from Utils import function_calls'
