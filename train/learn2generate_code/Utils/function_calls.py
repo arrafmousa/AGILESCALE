@@ -22,7 +22,7 @@ def to_mg(passed_product):
     return proudct_in_mg
 
 
-def to_gr(passed_product):
+def to_stu(passed_product):
     product_described = float(re.search("(\d+\.?\d*)", passed_product).group())
     if 'mg' in passed_product or 'mL' in passed_product or 'ml' in passed_product:
         product_in_gr = product_described / 1000
